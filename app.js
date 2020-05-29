@@ -30,9 +30,10 @@ async function getFilesSince(since) {
       ?physicalFile nie:dataSource ?logicalFileUri.
       ?logicalFileUri a nfo:FileDataObject;
         dct:created ?date;
-        dct:creator ${sparqlEscapeUri(ttlToDeltaUri)}
+        dct:creator ${sparqlEscapeUri(ttlToDeltaUri)}.
       FILTER (?date > ${sparqlEscapeDateTime(since)})
     }
+    ORDER BY ASC(?date)
   `;
   const result = await query(queryString);
   return result.results.bindings.map((result) => result.logicalFileUri.value);

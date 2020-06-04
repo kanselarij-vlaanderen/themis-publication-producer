@@ -39,8 +39,4 @@ async function getFilesSince(since) {
   return result.results.bindings.map((result) => result.logicalFileUri.value);
 }
 
-app.get('/test', async (req, res) => {
-  res.send('Hello World');
-});
-
 app.use(errorHandler);

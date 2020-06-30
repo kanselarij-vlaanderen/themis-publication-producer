@@ -1,5 +1,5 @@
 import { app, errorHandler } from 'mu';
-import { sparqlEscapeUri, sparqlEscapeDateTime, query } from 'mu';
+import { querySudo as query } from '@lblod/mu-auth-sudo';
 
 app.get('/files', async function( req, res ) {
   const since = req.query.since || new Date().toISOString();

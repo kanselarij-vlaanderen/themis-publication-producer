@@ -10,5 +10,8 @@
     "url": "git+https://github.com/kanselarij/valvas-publication-producer.git"
   },
   "author": "redpencil.io",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@lblod/mu-auth-sudo": "^0.2.0",
+  }
 }

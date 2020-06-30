@@ -1,13 +1,5 @@
 import { app, errorHandler } from 'mu';
-import bodyParser from 'body-parser';
 import { sparqlEscapeUri, sparqlEscapeDateTime, query } from 'mu';
-
-
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
-
-// parse application/json
-app.use(bodyParser.json());
 
 const ttlToDeltaUri = 'http://redpencil.data.gift/services/ttl-do-delta-service';
 

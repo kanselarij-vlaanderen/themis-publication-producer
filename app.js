@@ -27,7 +27,7 @@ async function getDeltaFiles(since) {
       ?s a nfo:FileDataObject ;
         mu:uuid ?uuid ;
         nfo:fileName ?filename ;
-        dct:publisher <http://redpencil.data.gift/services/ttl-to-delta-service> ;
+        dct:creator <http://redpencil.data.gift/services/ttl-to-delta-service> ;
         dct:created ?created .
       ?file nie:dataSource ?s .
 

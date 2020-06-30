@@ -7,7 +7,7 @@ app.post('/files', async (req, res) => {
   const since = new Date(req.body.since);
   const files = await getFilesSince(since);
   res.json(files);
-})
+});
 
 async function getFilesSince(since) {
   const queryString = `
@@ -15,7 +15,7 @@ async function getFilesSince(since) {
     PREFIX dct: <http://purl.org/dc/terms/>
     PREFIX nfo: <http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#>
     PREFIX nie: <http://www.semanticdesktop.org/ontologies/2007/01/19/nie#>
-    
+
     SELECT ?logicalFileUri
     WHERE
     {

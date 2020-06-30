@@ -3,13 +3,14 @@ import { sparqlEscapeUri, sparqlEscapeDateTime, query } from 'mu';
 
 const ttlToDeltaUri = 'http://redpencil.data.gift/services/ttl-do-delta-service';
 
-app.post('/files', async (req, res) => {
-  const since = new Date(req.body.since);
-  const files = await getFilesSince(since);
-  res.json(files);
-});
+app.get('/files', async function( req, res ) {
+  const since = req.query.since || new Date().toISOString();
+  const files = await getDeltaFiles(since);
+  res.json({ data: files });
+} );
 
-async function getFilesSince(since) {
+
+async function getDeltaFiles(since) {
   const queryString = `
     PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
     PREFIX dct: <http://purl.org/dc/terms/>

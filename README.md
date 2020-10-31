@@ -1,13 +1,13 @@
-# valvas-publication-producer
-Producer service providing an endpoint to fetch Valvas publications since a specific timestamp.
+# themis-publication-producer
+Producer service providing an endpoint to fetch publications for Themis since a specific timestamp.
 
 ## Tutorials
 ### Add the service to a stack
 Add the service to your `docker-compose.yml`:
 
 ```
-  valvas-publication-producer:
-    image: kanselarij/valvas-publication-producer
+  publication-producer:
+    image: kanselarij/themis-publication-producer
 
 ```
 
@@ -33,7 +33,7 @@ docker-compose up -d
 
 ## Reference
 ### API
-#### GET /files?since=<datetime>
+#### GET /files?since=iso-datetime
 Get a list of publication files generated since the request timestamp. The list is ordered by creation date, oldest first. This is also the order in which the files must be consumed.
 
 Example response:

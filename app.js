@@ -1,6 +1,8 @@
 import { app, errorHandler } from 'mu';
 import { querySudo as query } from '@lblod/mu-auth-sudo';
 
+const PUBLIC_GRAPH = process.env.PUBLIC_GRAPH || 'http://mu.semte.ch/graphs/themis-public';
+
 app.get('/files', async function( req, res ) {
   const since = req.query.since || new Date().toISOString();
   const files = await getDeltaFiles(since);
@@ -24,14 +26,16 @@ async function getDeltaFiles(since) {
 
     SELECT ?uuid ?filename ?created
     WHERE {
-      ?s a nfo:FileDataObject ;
-        mu:uuid ?uuid ;
-        nfo:fileName ?filename ;
-        dct:creator <http://redpencil.data.gift/services/ttl-to-delta-service> ;
-        dct:created ?created .
-      ?file nie:dataSource ?s .
+      GRAPH <${PUBLIC_GRAPH}> {
+        ?s a nfo:FileDataObject ;
+          mu:uuid ?uuid ;
+          nfo:fileName ?filename ;
+          dct:creator <http://redpencil.data.gift/services/ttl-to-delta-service> ;
+          dct:created ?created .
+        ?file nie:dataSource ?s .
 
-      FILTER (?created > "${since}"^^xsd:dateTime)
+        FILTER (?created > "${since}"^^xsd:dateTime)
+      }
     } ORDER BY ?created
   `);
 

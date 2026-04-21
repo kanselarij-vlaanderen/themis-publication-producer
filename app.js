@@ -24,7 +24,7 @@ async function getDeltaFiles(since) {
     PREFIX dct: <http://purl.org/dc/terms/>
     PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-    SELECT ?uuid ?filename ?created
+    SELECT ?uuid ?filename ?created ?subject
     WHERE {
       GRAPH <${PUBLIC_GRAPH}> {
         ?s a nfo:FileDataObject ;
@@ -33,6 +33,7 @@ async function getDeltaFiles(since) {
           dct:creator <http://redpencil.data.gift/services/ttl-to-delta-service> ;
           dct:created ?created .
         ?file nie:dataSource ?s .
+        OPTIONAL { ?s dct:subject ?subject .}
 
         FILTER (?created > "${since}"^^xsd:dateTime)
       }
@@ -45,7 +46,8 @@ async function getDeltaFiles(since) {
       id: b['uuid'].value,
       attributes: {
         name: b['filename'].value,
-        created: b['created'].value
+        created: b['created'].value,
+        subject: b['subject']?.value,
       }
     };
   });

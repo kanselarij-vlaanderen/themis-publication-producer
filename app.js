@@ -1,5 +1,4 @@
-import { app, errorHandler } from 'mu';
-import { querySudo as query } from '@lblod/mu-auth-sudo';
+import { app, errorHandler, query } from 'mu';
 
 const PUBLIC_GRAPH = process.env.PUBLIC_GRAPH || 'http://mu.semte.ch/graphs/themis-public';
 
@@ -38,7 +37,7 @@ async function getDeltaFiles(since) {
         FILTER (?created > "${since}"^^xsd:dateTime)
       }
     } ORDER BY ?created
-  `);
+  `, { sudo: true });
 
   return result.results.bindings.map(b => {
     return {

@@ -8,6 +8,8 @@ Add the service to your `docker-compose.yml`:
 ```
   publication-producer:
     image: kanselarij/themis-publication-producer
+    environment:
+      ALLOW_MU_AUTH_SUDO: "true"
 
 ```
 

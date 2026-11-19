@@ -9,7 +9,10 @@ app.get('/files', async function( req, res, next ) {
     const files = await getDeltaFiles(since);
     res.json({ data: files });
   } catch (e) {
-    next(e);
+    console.error(e);
+    const error = new Error('Something went wrong while retrieving the delta files');
+    error.status = 500;
+    next(error);
   }
 } );
 

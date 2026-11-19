@@ -3,16 +3,25 @@ import { querySudo as query } from '@lblod/mu-auth-sudo';
 
 const PUBLIC_GRAPH = process.env.PUBLIC_GRAPH || 'http://mu.semte.ch/graphs/themis-public';
 
-app.get('/files', async function( req, res ) {
-  const since = req.query.since || new Date().toISOString();
-  const files = await getDeltaFiles(since);
-  res.json({ data: files });
+app.get('/files', async function( req, res, next ) {
+  try {
+    if (!req.query.since) {
+      return res.status(400).json({
+        errors: [{ title: 'No since supplied.' }]
+      });
+    }
+    const since = new Date(req.query.since);
+    const files = await getDeltaFiles(since);
+    res.json({ data: files });
+  } catch (e) {
+    next(e);
+  }
 } );
 
 /**
  * Get all delta files produced by the ttl-to-delta service since a given timestamp
  *
- * @param since {string} ISO date time
+ * @param since {Date} timestamp
  * @private
  */
 async function getDeltaFiles(since) {

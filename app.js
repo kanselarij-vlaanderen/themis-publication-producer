@@ -5,12 +5,7 @@ const PUBLIC_GRAPH = process.env.PUBLIC_GRAPH || 'http://mu.semte.ch/graphs/them
 
 app.get('/files', async function( req, res, next ) {
   try {
-    if (!req.query.since) {
-      return res.status(400).json({
-        errors: [{ title: 'No since supplied.' }]
-      });
-    }
-    const since = new Date(req.query.since);
+    const since = req.query.since ? new Date(req.query.since) : new Date();
     const files = await getDeltaFiles(since);
     res.json({ data: files });
   } catch (e) {

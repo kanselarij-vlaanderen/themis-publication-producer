@@ -1,4 +1,4 @@
-import { app, errorHandler } from 'mu';
+import { app, errorHandler, sparqlEscapeDateTime } from 'mu';
 import { querySudo as query } from '@lblod/mu-auth-sudo';
 
 const PUBLIC_GRAPH = process.env.PUBLIC_GRAPH || 'http://mu.semte.ch/graphs/themis-public';
@@ -16,7 +16,7 @@ app.get('/files', async function( req, res ) {
  * @private
  */
 async function getDeltaFiles(since) {
-  console.log(`Retrieving delta files since ${since}`);
+  console.log(`Retrieving delta files since ${since.toISOString()}`);
   const result = await query(`
     PREFIX mu: <http://mu.semte.ch/vocabularies/core/>
     PREFIX nfo: <http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#>
@@ -35,7 +35,7 @@ async function getDeltaFiles(since) {
         ?file nie:dataSource ?s .
         OPTIONAL { ?s dct:subject ?subject .}
 
-        FILTER (?created > "${since}"^^xsd:dateTime)
+        FILTER (?created > ${sparqlEscapeDateTime(since)})
       }
     } ORDER BY ?created
   `);
